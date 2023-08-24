@@ -1,25 +1,27 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class LineSelector : MonoBehaviour
 {
-    [SerializeField] private float _spaceBetweenLines = 5f;
-    [SerializeField] private Transform _truck; // Reference to the Truck GameObject
+    [SerializeField] private Transform _truck;
 
-    void OnMouseDown()
+    private GameManager _gameManager;
+
+    private void Start()
     {
-        Vector3 newPosition = _truck.position;
-        newPosition.z = transform.position.z; // Match the line's z position
+        // Find and store the GameManager script
+        _gameManager = FindObjectOfType<GameManager>();
+    }
 
-        //_truck.position = newPosition; // Move the truck to the new position
+    private void OnMouseDown()
+    {
+        Debug.Log("CurrentGameState:" + _gameManager.CurrentGameState);
 
-
-     /*   Vector3 myPosition = transform.position;
-        Debug.Log("Truck position: " + myPosition);
-        Vector3 targetPosition = new Vector3(myPosition.x, myPosition.y, myPosition.z + _spaceBetweenLines);*/
-        _truck.DOMove(newPosition, 2f).SetEase(Ease.OutBack);
+        if (_gameManager.CurrentGameState == GameState.Playing)
+        {
+            Vector3 newPosition = _truck.position;
+            newPosition.z = transform.position.z;
+            _truck.DOMove(newPosition, 2f).SetEase(Ease.OutBack);
+        }
     }
 }
-
