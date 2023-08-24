@@ -20,7 +20,7 @@ public class LineSelector : MonoBehaviour
         if (_gameManager.CurrentGameState == GameState.Playing)
         {
             Vector3 newPosition = _truck.position;
-            newPosition.z = transform.position.z;
+            newPosition.x = transform.position.x;
             _truck.DOMove(newPosition, 2f).SetEase(Ease.OutBack);
         }
     }
