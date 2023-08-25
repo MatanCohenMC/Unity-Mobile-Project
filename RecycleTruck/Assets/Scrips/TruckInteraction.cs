@@ -10,6 +10,7 @@ using UnityEngine;
 public class TruckInteraction : MonoBehaviour
 {
     private GameManager _gameManager;
+    [SerializeField] private SpawnManager _spawnManager;
     //[SerializeField] private Vector3 _currentPosition;
 
     private void Start()
@@ -35,6 +36,11 @@ public class TruckInteraction : MonoBehaviour
             _gameManager.StartGame();
             Debug.Log("Game state: Playing");
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        _spawnManager.SpawnTriggerEntered();
     }
 }
 
