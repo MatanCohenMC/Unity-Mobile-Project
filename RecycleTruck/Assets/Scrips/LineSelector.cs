@@ -6,22 +6,35 @@ public class LineSelector : MonoBehaviour
     [SerializeField] private Transform _truck;
 
     private GameManager _gameManager;
+    private Tween _currentTween;
 
     private void Start()
     {
-        // Find and store the GameManager script
         _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void OnMouseDown()
     {
-        Debug.Log("CurrentGameState:" + _gameManager.CurrentGameState);
-
         if (_gameManager.CurrentGameState == GameState.Playing)
         {
-            Vector3 newPosition = _truck.position;
-            newPosition.x = transform.position.x;
-            _truck.DOMove(newPosition, 2f).SetEase(Ease.OutBack);
+            stopAndStartNewMovingLineAnimation();
         }
+    }
+
+    private void stopAndStartNewMovingLineAnimation()
+    {
+        if (_currentTween != null)
+        {
+            _currentTween.Kill();
+        }
+
+        startMovingLineAnimation();
+    }
+
+    private void startMovingLineAnimation()
+    {
+        Vector3 newPosition = _truck.position;
+        newPosition.x = transform.position.x;
+        _currentTween = _truck.DOMove(newPosition, 2f).SetEase(Ease.OutBack);
     }
 }
