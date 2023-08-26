@@ -15,7 +15,6 @@ public class TruckInteraction : MonoBehaviour
 
     private void Start()
     {
-        // Find and store the GameManager script
         _gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -34,7 +33,6 @@ public class TruckInteraction : MonoBehaviour
         if (_gameManager.CurrentGameState == GameState.Idle)
         {
             _gameManager.StartGame();
-            Debug.Log("Game state: Playing");
         }
     }
 
