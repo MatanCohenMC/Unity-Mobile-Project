@@ -11,28 +11,21 @@ public class TruckInteraction : MonoBehaviour
 {
     private GameManager _gameManager;
     [SerializeField] private SpawnManager _spawnManager;
-    //[SerializeField] private Vector3 _currentPosition;
+    [SerializeField] private Vector3 _initPosition;
 
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
     }
 
-    void FixedUpdate()
-    {
-        /*if(_gameManager.CurrentGameState == GameState.Playing)
-        {
-            Vector3 newPosition = _currentPosition;
-            newPosition.y = _currentPosition.y+2;
-            transform.DOMove(newPosition, 1f).SetEase(Ease.OutBack);
-        }*/
-    }
+   
 
     void OnMouseDown()
     {
         if (_gameManager.CurrentGameState == GameState.Idle)
         {
             _gameManager.StartGame();
+            transform.position = _initPosition;
         }
     }
 
