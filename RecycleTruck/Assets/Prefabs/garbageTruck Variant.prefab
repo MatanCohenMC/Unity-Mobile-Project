@@ -15,12 +15,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d7e298161ec6fc6429afc6c7ae43bd0d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d7e298161ec6fc6429afc6c7ae43bd0d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.837
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d7e298161ec6fc6429afc6c7ae43bd0d,
         type: 3}
@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d7e298161ec6fc6429afc6c7ae43bd0d,
         type: 3}
       propertyPath: m_Name
-      value: garbageTruck
+      value: garbageTruck Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7e298161ec6fc6429afc6c7ae43bd0d, type: 3}
@@ -104,17 +104,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5578232, y: 1.5570383, z: 3.3889503}
   m_Center: {x: 0.012935638, y: 0.77291155, z: 0.011880875}
---- !u!114 &284658151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5316243312073623833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07755bdbdadbf5547a220665c6c84c65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnManager: {fileID: 0}
-  _initPosition: {x: -100, y: -5.837, z: 30}

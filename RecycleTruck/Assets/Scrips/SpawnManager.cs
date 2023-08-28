@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    StripSpawner _stripSpawner;
+    private StripSpawner _stripSpawner;
 
     void Start()
     {

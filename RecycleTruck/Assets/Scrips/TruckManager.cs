@@ -1,11 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
-using DG.Tweening.Core.Easing;
-using Unity.VisualScripting;
 using UnityEngine;
 
-using UnityEngine;
 
 public class TruckManager : MonoBehaviour
 {
@@ -45,7 +39,7 @@ public class TruckManager : MonoBehaviour
         if (_gameManager.CurrentGameState == GameState.Idle)
         {
             _gameManager.StartGame();
-            transform.position = _initPosition;
+            // transform.position = _initPosition;
         }
     }
 
@@ -61,7 +55,7 @@ public class TruckManager : MonoBehaviour
         _nextChangeTime = Time.time + Random.Range(5f, 10f);
 
         // Find the MeshRenderer component of the body
-        _bodyRenderer = transform.Find("body")?.GetComponent<MeshRenderer>();
+        _bodyRenderer = transform.Find("garbageTruck").Find("body")?.GetComponent<MeshRenderer>();
 
         if (_bodyRenderer == null)
         {
