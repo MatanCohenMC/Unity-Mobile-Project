@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,8 +6,8 @@ public class StripSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _strips;
     private float _offset = 24.24f;
-    private float _stripsX = -100f;
-    private float _stripsY = -10f;
+    private float _stripsX = 0f;
+    private float _stripsY = 100f;
 
     void Start()
     {

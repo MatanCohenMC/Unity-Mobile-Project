@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameState
@@ -31,6 +29,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game state: Idle");
 
     }
+
+    private void Update()
+    {
+        
+    }
+
 
     public void StartGame()
     {
