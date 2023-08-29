@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public enum GameState
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        DOTween.Init();
 
         // Set the initial game state
         CurrentGameState = GameState.Idle;
