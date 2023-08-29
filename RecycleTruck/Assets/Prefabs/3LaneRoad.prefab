@@ -1,39 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6415255147271655619
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6415255147271655644}
-  m_Layer: 0
-  m_Name: Lanes
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6415255147271655644
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6415255147271655619}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.18331146, y: -9.903741, z: 28.674644}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6415255147380253748}
-  - {fileID: 6415255147833608332}
-  - {fileID: 6415255147815952499}
-  m_Father: {fileID: 6415255147914425975}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6415255147380253755
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6415255147380253755}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.2876, y: 14.03, z: -28.7401}
-  m_LocalScale: {x: 0.36270133, y: 1, z: 1.1928514}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.104286, y: 4.126259, z: -0.06545639}
+  m_LocalScale: {x: 0.3627013, y: 1, z: 1.1928514}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6415255147271655644}
-  m_RootOrder: 0
+  m_Father: {fileID: 6415255147914425975}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6415255147380253751
 MeshFilter:
@@ -140,12 +106,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6415255147380253755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e3a17957960e38498c70fad6ca1ae24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _truck: {fileID: 0}
+  _lanes: []
 --- !u!1 &6415255147815952498
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,13 +140,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6415255147815952498}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.89, y: 14.03, z: -28.7401}
-  m_LocalScale: {x: 0.36270133, y: 1, z: 1.1928514}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.0733128, y: 4.126259, z: -0.06545639}
+  m_LocalScale: {x: 0.3627013, y: 1, z: 1.1928514}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6415255147271655644}
-  m_RootOrder: 2
+  m_Father: {fileID: 6415255147914425975}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6415255147815952462
 MeshFilter:
@@ -252,12 +219,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6415255147815952498}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e3a17957960e38498c70fad6ca1ae24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _truck: {fileID: 0}
+  _lanes: []
 --- !u!1 &6415255147833608371
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,12 +253,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6415255147833608371}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.182, y: 14.03, z: -28.7401}
-  m_LocalScale: {x: 0.36270133, y: 1, z: 1.1928514}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0013068605, y: 4.126259, z: -0.06545639}
+  m_LocalScale: {x: 0.3627013, y: 1, z: 1.1928514}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6415255147271655644}
+  m_Father: {fileID: 6415255147914425975}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6415255147833608335
@@ -364,12 +332,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6415255147833608371}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e3a17957960e38498c70fad6ca1ae24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _truck: {fileID: 0}
+  _lanes: []
 --- !u!1 &6415255147914425979
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +351,7 @@ GameObject:
   - component: {fileID: 6415255147914425974}
   - component: {fileID: 6415255147914425973}
   - component: {fileID: 6415255147914425972}
+  - component: {fileID: 1501744748994341860}
   m_Layer: 0
   m_Name: 3LaneRoad
   m_TagString: Untagged
@@ -401,7 +371,9 @@ Transform:
   m_LocalScale: {x: 0.7998, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6415255147271655644}
+  - {fileID: 6415255147815952499}
+  - {fileID: 6415255147833608332}
+  - {fileID: 6415255147380253748}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -39196,3 +39168,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6415255147914425979}
   m_Mesh: {fileID: 0}
+--- !u!114 &1501744748994341860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415255147914425979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e3a17957960e38498c70fad6ca1ae24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _truck: {fileID: 0}
+  _lanes:
+  - {fileID: 6415255147815952499}
+  - {fileID: 6415255147833608332}
+  - {fileID: 6415255147380253748}
