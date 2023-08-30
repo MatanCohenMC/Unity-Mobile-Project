@@ -20,6 +20,7 @@ public class LineSelectorBySwipe : MonoBehaviour
     private Tween _currentTween;
     private LanePosition _currentLane;
     private float _offset = 60f;
+    private float _animationDuration = 2f;
 
     private void Start()
     {
@@ -79,7 +80,7 @@ public class LineSelectorBySwipe : MonoBehaviour
         }
         
         yield return new WaitForSeconds(0.05f); // Delay before animation starts
-        _currentTween = _truck.DOMove(targetPosition, 3f).SetEase(Ease.OutBack);
+        _currentTween = _truck.DOMove(targetPosition, _animationDuration).SetEase(Ease.OutBack);
         _currentTween.Play();
 
         yield return new WaitForSeconds(2.5f); // Wait for animation duration
