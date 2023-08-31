@@ -13,11 +13,12 @@ public class TruckManager : MonoBehaviour
     private MeshRenderer _bodyRenderer; 
 
 
-    private void Start()
+    private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
         transform.position = _initPosition;
         Debug.Log($"Truck set to init position: {transform.position}");
+        getBodyRendere();
         initializeColor();
     }
 
@@ -27,8 +28,8 @@ public class TruckManager : MonoBehaviour
         {
             changeToRandomColor();
 
-            // Calculate the next random interval between 5 and 10 seconds and set the next change time
-            _nextChangeTime = Time.time + Random.Range(5f, 10f);
+            // Calculate the next random interval between 7 and 15 seconds and set the next change time
+            _nextChangeTime = Time.time + Random.Range(7f, 15f);
 
             Debug.Log($"Truck color changed to {_currentColor}.");
         }
@@ -39,19 +40,21 @@ public class TruckManager : MonoBehaviour
         _spawnManager.SpawnTriggerEntered();
     }
 
+    private void getBodyRendere()
+    {
+        // Find the MeshRenderer component of the body
+        _bodyRenderer = transform.Find("garbageTruck").Find("body")?.GetComponent<MeshRenderer>();
+        if (_bodyRenderer == null)
+        {
+            Debug.LogError("Body MeshRenderer not found!");
+        }
+    }
+
     private void initializeColor()
     {
         // Set the initial state and schedule the first state change after a random delay
         _currentColor = TruckColor.Brown;
         _nextChangeTime = Time.time + 10f;
-
-        // Find the MeshRenderer component of the body
-        _bodyRenderer = transform.Find("garbageTruck").Find("body")?.GetComponent<MeshRenderer>();
-
-        if (_bodyRenderer == null)
-        {
-            Debug.LogError("Body MeshRenderer not found!");
-        }
     }
 
     private void changeToRandomColor()

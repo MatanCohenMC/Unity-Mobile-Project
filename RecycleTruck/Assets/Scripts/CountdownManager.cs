@@ -34,6 +34,6 @@ public class CountdownManager : MonoBehaviour
         countdownText.text = "Go!";
         yield return new WaitForSeconds(1);
         countdownText.gameObject.SetActive(false); // Deactivate the countdown text
-        gameManager.StartGame(); // Call the StartGame method
+        gameManager.StartGame(); 
     }
 }

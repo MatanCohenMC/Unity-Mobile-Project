@@ -34,13 +34,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game state: Idle");
 
     }
-
-    private void Update()
-    {
-        
-    }
-
-
+    
     public void StartGame()
     {
         CurrentGameState = GameState.Playing;
