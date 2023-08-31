@@ -34,14 +34,6 @@ public class TruckManager : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
-    {
-        if (_gameManager.CurrentGameState == GameState.Idle)
-        {
-            _gameManager.StartGame();
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         _spawnManager.SpawnTriggerEntered();
