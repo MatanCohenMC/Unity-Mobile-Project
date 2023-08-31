@@ -78,7 +78,7 @@ public class LineSelectorBySwipe : MonoBehaviour
 
     private IEnumerator PlayMoveAnimation(Vector3 targetPosition)
     {
-        yield return new WaitForSeconds(0.12f); // Delay before animation starts
+        _currentTween = _truck.DOMove(_truck.position, 0.2f); // Kind of Delay before animation starts
         _currentTween = _truck.DOMove(targetPosition, _animationDuration).SetEase(Ease.OutBack).OnComplete(() => _currentTween = null);
         _currentTween.Play();
 
