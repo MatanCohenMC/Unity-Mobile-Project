@@ -36,7 +36,28 @@ public class TruckManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _spawnManager.SpawnTriggerEntered();
+        if (other.gameObject.tag == "SpawnTrigger")
+        {
+            _spawnManager.SpawnTriggerEntered();
+        }
+        else if (other.gameObject.tag == "ObjectToCollect")
+        {
+
+            // Player hit an obstacle, decrease lives and check if game over
+            _gameManager.m_HealthManager.DecreaseOrIncreaseHeartAmount(false);
+            // לעשות שהאובייקט נעלם !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            Debug.Log("Player hit an object");
+
+            if (_gameManager.m_HealthManager.m_HealthAmountRemain <= 0)
+            {
+                _gameManager.EndGame();
+                Debug.Log("Game Over");
+                // Add any game over logic here
+            }
+
+        }
+
     }
 
     private void initializeColor()

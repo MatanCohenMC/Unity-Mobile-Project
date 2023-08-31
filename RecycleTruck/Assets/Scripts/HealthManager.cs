@@ -15,8 +15,25 @@ public class HealthManager : MonoBehaviour
     {
         m_HealthAmountRemain = k_DefaultTotalHealthAmount;
     }
-    // Update is called once per frame
-    void Update()
+
+    void Start()
+    {
+        updateHeartAmount();
+    }
+
+    //void Update()
+    //{
+    //    updateHeartAmount();
+    //}
+
+
+    public void DecreaseOrIncreaseHeartAmount(bool i_ToIncrease)
+    {
+        m_HealthAmountRemain += i_ToIncrease ? 1 : -1;
+        updateHeartAmount();
+    }
+
+    private void updateHeartAmount()
     {
         foreach (Image img in m_Hearts)
         {

@@ -13,8 +13,6 @@ public class StripSpawner : MonoBehaviour
 
     void Start()
     {
-
-
         if (_strips is { Count: > 0 })
         {
             _strips = _strips.OrderBy(strip => strip.transform.position.z).ToList();
@@ -29,7 +27,7 @@ public class StripSpawner : MonoBehaviour
     public void MoveStrip()
     {
         GameObject movedStrip = _strips[0];
-        removeObjectFromStrip(movedStrip.transform);
+        RemoveObjectFromStrip(movedStrip.transform);
         _strips.Remove(movedStrip);
         float newZ = _strips[^1].transform.position.z + _offset;
         movedStrip.transform.position = new Vector3(_stripsX, _stripsY, newZ);
@@ -37,7 +35,7 @@ public class StripSpawner : MonoBehaviour
         _strips.Add(movedStrip);
     }
 
-    private void removeObjectFromStrip(Transform i_StripTransform)
+    public void RemoveObjectFromStrip(Transform i_StripTransform)
     {
         // the transform of the object on the strip we want to remove.
         Transform transfromOfObject = null;
