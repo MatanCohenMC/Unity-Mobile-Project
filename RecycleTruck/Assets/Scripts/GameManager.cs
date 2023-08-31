@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public GameState CurrentGameState { get; private set; }
     public string PlayerName { get; private set; }
+    public HealthManager m_HealthManager;
 
     private void Awake()
     {
@@ -35,6 +36,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        m_HealthManager = GetComponentInChildren<HealthManager>();
+    }
+
     private void Update()
     {
         
@@ -50,9 +56,9 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        //GameObject.Find("MainMenuCanvas").SetActive(true);
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
-
     }
 
     public void SetPlayerName(string name)
