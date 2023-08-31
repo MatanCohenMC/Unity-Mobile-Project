@@ -79,7 +79,7 @@ public class LineSelectorBySwipe : MonoBehaviour
             _currentTween.Kill();
         }
         
-        yield return new WaitForSeconds(0.05f); // Delay before animation starts
+        yield return new WaitForSeconds(0.1f); // Delay before animation starts
         _currentTween = _truck.DOMove(targetPosition, _animationDuration).SetEase(Ease.OutBack);
         _currentTween.Play();
 

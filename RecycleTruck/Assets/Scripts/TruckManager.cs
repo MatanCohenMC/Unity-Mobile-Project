@@ -1,15 +1,14 @@
 using UnityEngine;
 
+public enum TruckColor { Brown, Blue, Orange, Purple }
 
 public class TruckManager : MonoBehaviour
 {
     private GameManager _gameManager;
     [SerializeField] private SpawnManager _spawnManager;
     [SerializeField] private Vector3 _initPosition;
-    private enum TruckColor { Green, Blue, Orange, Purple }
     private TruckColor _currentColor;
     private float _nextChangeTime;
-
     public Material[] _bodyMaterials;
     private MeshRenderer _bodyRenderer; 
 
@@ -17,8 +16,9 @@ public class TruckManager : MonoBehaviour
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        transform.position = _initPosition;
+        Debug.Log($"Truck set to init position: {transform.position}");
         initializeColor();
-        
     }
 
     private void Update()
@@ -34,15 +34,6 @@ public class TruckManager : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
-    {
-        if (_gameManager.CurrentGameState == GameState.Idle)
-        {
-            _gameManager.StartGame();
-            // transform.position = _initPosition;
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         _spawnManager.SpawnTriggerEntered();
@@ -51,8 +42,8 @@ public class TruckManager : MonoBehaviour
     private void initializeColor()
     {
         // Set the initial state and schedule the first state change after a random delay
-        _currentColor = TruckColor.Green;
-        _nextChangeTime = Time.time + Random.Range(5f, 10f);
+        _currentColor = TruckColor.Brown;
+        _nextChangeTime = Time.time + 10f;
 
         // Find the MeshRenderer component of the body
         _bodyRenderer = transform.Find("garbageTruck").Find("body")?.GetComponent<MeshRenderer>();
