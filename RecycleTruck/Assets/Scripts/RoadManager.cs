@@ -11,6 +11,7 @@ public class RoadManager : MonoBehaviour
     private float _currentScrollSpeed;
     private float _timer;
 
+
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -21,12 +22,22 @@ public class RoadManager : MonoBehaviour
 
     private void Update()
     {
-        if (_gameManager.CurrentGameState == GameState.Playing)
+        GameState currentGameState = _gameManager.CurrentGameState; // Cache the value
+
+        if (currentGameState == GameState.Playing)
         {
             parallaxScrolling();
+        }
+
+        /*if (_gameManager.CurrentGameState == GameState.Playing)
+        {
+            Debug.Log("Road start moving");
+            parallaxScrolling();
+            
+           
 
             // Update the timer
-            /*_timer += Time.deltaTime;
+            *//*_timer += Time.deltaTime;
 
             // Check if it's time to increase the speed
             if (_timer >= speedIncreaseInterval)
@@ -34,8 +45,8 @@ public class RoadManager : MonoBehaviour
                 _currentScrollSpeed += speedIncreaseAmount;
                 StartChangingScrollSpeed(_currentScrollSpeed, 10f);
                 _timer = 0f; // Reset the timer
-            }*/
-        }
+            }*//*
+        }*/
     }
 
     private void parallaxScrolling()
@@ -46,6 +57,7 @@ public class RoadManager : MonoBehaviour
         // Apply the offset to the background's position with a decreasing z value
         Vector3 newPosition = new Vector3(_initialPosition.x, _initialPosition.y, _initialPosition.z - offset);
         transform.position = newPosition;
+        Debug.Log($"transform.position: {transform.position}");
     }
 
     // Coroutine to gradually change the scroll speed over time

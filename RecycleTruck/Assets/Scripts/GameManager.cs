@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public GameState CurrentGameState { get; private set; }
+    public string PlayerName { get; private set; }
 
     private void Awake()
     {
@@ -51,6 +53,15 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
 
+    }
+
+    public void SetPlayerName(string name)
+    {
+        if(name != string.Empty)
+        {
+            PlayerName = name;
+            Debug.Log($"Player name set to: {PlayerName}");
+        }
     }
 }
 
