@@ -22,10 +22,11 @@ public class RoadManager : MonoBehaviour
 
     private void Update()
     {
-        GameState currentGameState = _gameManager.CurrentGameState; // Cache the value
+        GameState currentGameState = _gameManager.CurrentGameState;
 
         if (currentGameState == GameState.Playing)
         {
+            _timer += Time.deltaTime; // Update the timer when in Playing state
             parallaxScrolling();
         }
 
@@ -51,14 +52,13 @@ public class RoadManager : MonoBehaviour
 
     private void parallaxScrolling()
     {
-        // Calculate the amount to move the background based on time and scrollSpeed
-        float offset = Time.time * _currentScrollSpeed;
+        float offset = _timer * _currentScrollSpeed; // Use the cached timer value
 
         // Apply the offset to the background's position with a decreasing z value
         Vector3 newPosition = new Vector3(_initialPosition.x, _initialPosition.y, _initialPosition.z - offset);
         transform.position = newPosition;
-        Debug.Log($"transform.position: {transform.position}");
     }
+
 
     // Coroutine to gradually change the scroll speed over time
     private IEnumerator ChangeScrollSpeed(float newSpeed, float duration)

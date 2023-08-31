@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+    
     public void StartGame()
     {
         CurrentGameState = GameState.Playing;
