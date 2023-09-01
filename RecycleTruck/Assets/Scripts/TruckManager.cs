@@ -43,22 +43,39 @@ public class TruckManager : MonoBehaviour
         }
         else if (other.gameObject.tag == "ObjectToCollect")
         {
+            Debug.Log("Player hit an object");
 
             // Player hit an obstacle, decrease lives and check if game over
             _gameManager.m_HealthManager.DecreaseOrIncreaseHeartAmount(false);
-            // לעשות שהאובייקט נעלם !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-            Debug.Log("Player hit an object");
+            removeObjectAfterCollisionWithTruck(other);
 
             if (_gameManager.m_HealthManager.m_HealthAmountRemain <= 0)
             {
                 _gameManager.EndGame();
-                Debug.Log("Game Over");
-                // Add any game over logic here
             }
 
         }
 
+    }
+
+    private void removeObjectAfterCollisionWithTruck(Collider other)
+    {
+        // Find the GameObject with the "StripSpawner" script component
+        GameObject gameObjectWhichIncludesStripSpawnerScript = GameObject.Find("SpawnManager");
+
+        // Access the "StripSpawner" script component
+        StripSpawner stripSpawnerComponent = gameObjectWhichIncludesStripSpawnerScript.GetComponent<StripSpawner>();
+
+        // Check if the script component is found
+        if (stripSpawnerComponent != null)
+        {
+            // Call the RemoveObjectFromStrip method in "StripSpawner"
+            stripSpawnerComponent.RemoveObjectFromStrip(other.transform.parent);
+        }
+        else
+        {
+            Debug.LogError("Func2 script component not found on the GameObject.");
+        }
     }
 
     private void getBodyRendere()
