@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState { get; private set; }
     public string PlayerName { get; private set; }
     public HealthManager m_HealthManager;
+    public GameObject m_GameOverCanvas;
+    public GameObject m_HUBCanvas;
 
     private void Awake()
     {
@@ -57,7 +59,9 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        showGameOverCanvas();
+        m_HUBCanvas.SetActive(false);
+        m_GameOverCanvas.SetActive(true);
+        ResetGame();
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
     }
@@ -71,18 +75,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void showGameOverCanvas()
+    public void ResetGame()
     {
-        GameObject gameOverCanvas = GameObject.Find("GameOverCanvas");
-
-        if (gameOverCanvas != null)
-        {
-            gameOverCanvas.SetActive(true);
-        }
-        else
-        {
-            Debug.Log("GameObject GameOverCanvas was not found");
-        }
+        m_HealthManager.ResetLives();
+        // reset points!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
+
+ 
 }
 
