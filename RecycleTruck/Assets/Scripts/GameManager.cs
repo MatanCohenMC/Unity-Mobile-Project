@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        //GameObject.Find("MainMenuCanvas").SetActive(true);
+        showGameOverCanvas();
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
     }
@@ -68,6 +68,20 @@ public class GameManager : MonoBehaviour
         {
             PlayerName = name;
             Debug.Log($"Player name set to: {PlayerName}");
+        }
+    }
+
+    private void showGameOverCanvas()
+    {
+        GameObject gameOverCanvas = GameObject.Find("GameOverCanvas");
+
+        if (gameOverCanvas != null)
+        {
+            gameOverCanvas.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("GameObject GameOverCanvas was not found");
         }
     }
 }
