@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SpawnTrigger
   - ObjectToCollect
+  - GameOverCanvasTag
   layers:
   - Default
   - TransparentFX

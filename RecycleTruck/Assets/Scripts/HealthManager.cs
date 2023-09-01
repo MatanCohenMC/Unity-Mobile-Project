@@ -7,7 +7,7 @@ public class HealthManager : MonoBehaviour
 {
     public const int k_DefaultTotalHealthAmount = 3;
     public int m_HealthAmountRemain = k_DefaultTotalHealthAmount;
-    public Image[] m_Hearts/* = new Image[k_DefaultTotalHealthAmount]*/;
+    public Image[] m_Hearts;
     public Sprite m_FullHeart;
     public Sprite m_EmptyHeart;
 
@@ -44,5 +44,10 @@ public class HealthManager : MonoBehaviour
         {
             m_Hearts[i].sprite = m_FullHeart;
         }
+    }
+
+    public void ResetLives()
+    {
+        m_HealthAmountRemain = k_DefaultTotalHealthAmount;
     }
 }
