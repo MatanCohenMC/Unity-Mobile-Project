@@ -8,17 +8,15 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     private const int k_ScoreToAdd = 10;
-    public static ScoreManager Instance { get; private set; }
     private ScoreData _scoresData;
     public TextMeshProUGUI m_PlayerScoreText;
     public TextMeshProUGUI m_HighScoreText;
-    private int m_PlayerScore;
-    private int m_HighScore;
+    public int m_PlayerScore;
+    public int m_HighScore;
 
 
     void Awake()
     {
-        Instance = this;
         var json = PlayerPrefs.GetString("scores", "{}");
         _scoresData = JsonUtility.FromJson<ScoreData>(json);
 

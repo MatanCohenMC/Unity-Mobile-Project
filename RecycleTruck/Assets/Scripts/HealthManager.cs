@@ -9,7 +9,6 @@ using System;
 public class HealthManager : MonoBehaviour
 {
     public const int k_DefaultTotalHealthAmount = 3;
-    public static HealthManager Instance { get; private set; }
     public int HealthAmountRemain { get; private set; }
     [SerializeField] private Image[] m_Hearts;
     public Image[] Hearts
@@ -32,9 +31,7 @@ public class HealthManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
         GameManager.Instance.OnGameSetup += SetupLives;
-
     }
 
     void Start()
