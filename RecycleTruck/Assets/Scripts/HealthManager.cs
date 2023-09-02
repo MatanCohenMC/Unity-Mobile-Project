@@ -2,18 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
+
+[Serializable]
 public class HealthManager : MonoBehaviour
 {
     public const int k_DefaultTotalHealthAmount = 3;
-    public int m_HealthAmountRemain = k_DefaultTotalHealthAmount;
-    public Image[] m_Hearts;
-    public Sprite m_FullHeart;
-    public Sprite m_EmptyHeart;
+    public static HealthManager Instance { get; private set; }
+    public int HealthAmountRemain { get; private set; }
+    [SerializeField] private Image[] m_Hearts;
+    public Image[] Hearts
+    {
+        get { return m_Hearts; }
+        private set { m_Hearts = value; }
+    }
+    [SerializeField] private Sprite m_FullHeart;
+    public Sprite FullHeart
+    {
+        get { return m_FullHeart; }
+        private set { m_FullHeart = value; }
+    }
+    [SerializeField] private Sprite m_EmptyHeart;
+    public Sprite EmptyHeart
+    {
+        get { return m_EmptyHeart; }
+        private set { m_EmptyHeart = value; }
+    }
 
     private void Awake()
     {
-        m_HealthAmountRemain = k_DefaultTotalHealthAmount;
+        Instance = this;
+        GameManager.Instance.OnGameSetup += SetupLives;
+
     }
 
     void Start()
@@ -29,25 +50,31 @@ public class HealthManager : MonoBehaviour
 
     public void DecreaseOrIncreaseHeartAmount(bool i_ToIncrease)
     {
-        m_HealthAmountRemain += i_ToIncrease ? 1 : -1;
+        HealthAmountRemain += i_ToIncrease ? 1 : -1;
         updateHeartAmount();
     }
 
     private void updateHeartAmount()
     {
-        foreach (Image img in m_Hearts)
+        foreach (Image img in Hearts)
         {
-            img.sprite = m_EmptyHeart;
+            img.sprite = EmptyHeart;
         }
 
-        for (int i = 0; i < m_HealthAmountRemain; i++)
+        for (int i = 0; i < HealthAmountRemain; i++)
         {
-            m_Hearts[i].sprite = m_FullHeart;
+            Hearts[i].sprite = FullHeart;
         }
     }
 
-    public void ResetLives()
+    public void SetupLives()
     {
-        m_HealthAmountRemain = k_DefaultTotalHealthAmount;
+        HealthAmountRemain = k_DefaultTotalHealthAmount;
+        updateHeartAmount();
+    }
+
+    public void HandleGameReset()
+    {
+        SetupLives();
     }
 }

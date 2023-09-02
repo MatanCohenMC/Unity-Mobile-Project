@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public enum GameState
 {
@@ -11,12 +12,14 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    // Define a delegate type for the game reset event.
+    public delegate void GameResetEventHandler();
+    // Create a delegate instance for the game reset event.
+    public GameResetEventHandler OnGameSetup;
     public static GameManager Instance { get; private set; }
     public GameState CurrentGameState { get; private set; }
     public string PlayerName { get; private set; }
-    public HealthManager m_HealthManager;
     public GameObject m_GameOverCanvas;
-    public GameObject m_HUBCanvas;
 
     private void Awake()
     {
@@ -38,11 +41,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        m_HealthManager = GetComponentInChildren<HealthManager>();
-    }
-
     private void Update()
     {
         
@@ -52,16 +50,20 @@ public class GameManager : MonoBehaviour
     
     public void StartGame()
     {
+        setupGame(); 
+        CountdownManager.Instance.StartCountdown();
+    }
+
+    public void changeGameStateToPlaying()
+    {
         CurrentGameState = GameState.Playing;
         Debug.Log("Game state: Playing");
-
     }
 
     public void EndGame()
     {
-        m_HUBCanvas.SetActive(false);
+        GameObject.Find("HUBCanvas").SetActive(false);
         m_GameOverCanvas.SetActive(true);
-        ResetGame();
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
     }
@@ -75,12 +77,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ResetGame()
+    //public void ResetGame()
+    //{
+    //    HealthManager.Instance.ResetLives();
+    //    ScoreManager.Instance.ResetPlayerScore();
+
+    //}
+
+    public void setupGame()
     {
-        m_HealthManager.ResetLives();
-        // reset points!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Invoke the game reset delegate to notify listeners that the game has been reset.
+        OnGameSetup?.Invoke();
     }
 
- 
 }
 
