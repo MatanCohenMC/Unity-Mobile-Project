@@ -4,7 +4,7 @@ public enum TruckColor { Brown, Blue, Orange, Purple }
 
 public class TruckManager : MonoBehaviour
 {
-    private GameManager _gameManager;
+    //private GameManager _gameManager;
     [SerializeField] private SpawnManager _spawnManager;
     [SerializeField] private Vector3 _initPosition;
     private TruckColor _currentColor;
@@ -15,16 +15,15 @@ public class TruckManager : MonoBehaviour
 
     private void Awake()
     {
-        _gameManager = FindObjectOfType<GameManager>();
-        transform.position = _initPosition;
-        Debug.Log($"Truck set to init position: {transform.position}");
+        //_gameManager = FindObjectOfType<GameManager>();
+        GameManager.Instance.OnGameSetup += SetupTruck;
+        //ResetTruck();
         getBodyRendere();
-        initializeColor();
     }
 
     private void Update()
     {
-        if (_gameManager.CurrentGameState == GameState.Playing && Time.time >= _nextChangeTime)
+        if (GameManager.Instance.CurrentGameState == GameState.Playing && Time.time >= _nextChangeTime)
         {
             changeToRandomColor();
 
@@ -35,28 +34,46 @@ public class TruckManager : MonoBehaviour
         }
     }
 
+    public void SetupTruck()
+    {
+        transform.position = _initPosition;
+        Debug.Log($"Truck set to init position: {transform.position}");
+        initializeColor();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "SpawnTrigger")
         {
             _spawnManager.SpawnTriggerEntered();
         }
-        else if (other.gameObject.tag == "ObjectToCollect")
+        else if (other.gameObject.tag.Contains("ObjectToCollect"))
         {
             Debug.Log("Player hit an object");
 
-            // Player hit an obstacle, decrease lives and check if game over
-            _gameManager.m_HealthManager.DecreaseOrIncreaseHeartAmount(false);
+            Debug.Log(_currentColor.ToString());
             removeObjectAfterCollisionWithTruck(other);
 
-            if (_gameManager.m_HealthManager.m_HealthAmountRemain <= 0)
+            if ((other.gameObject.tag.Contains(_currentColor.ToString())))
             {
-                _gameManager.EndGame();
+                ScoreManager.Instance.AddPointsToPlayerScore();
             }
+            else
+            {
+                // Player hit wrong object, decrease lives and check if game over
+                HealthManager.Instance.DecreaseOrIncreaseHeartAmount(false);
+
+                if (HealthManager.Instance.HealthAmountRemain <= 0)
+                {
+                    GameManager.Instance.EndGame();
+                }
+            }
+            
 
         }
 
     }
+
 
     private void removeObjectAfterCollisionWithTruck(Collider other)
     {
@@ -90,6 +107,8 @@ public class TruckManager : MonoBehaviour
 
     private void initializeColor()
     {
+        Debug.LogError("IM HERE (:::::::");
+
         // Set the initial state and schedule the first state change after a random delay
         _currentColor = TruckColor.Brown;
         _nextChangeTime = Time.time + 10f;

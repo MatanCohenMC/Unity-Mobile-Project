@@ -5,8 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - SpawnTrigger
-  - ObjectToCollect
   - GameOverCanvasTag
+  - BlueObjectToCollect
+  - OrangeObjectToCollect
+  - BrownObjectToCollect
+  - PurpleObjectToCollect
   layers:
   - Default
   - TransparentFX

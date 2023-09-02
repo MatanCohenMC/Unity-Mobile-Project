@@ -14,7 +14,7 @@ public class ScoreUI : MonoBehaviour
         /*_scoreManager.AddScore(new Score("MATAN", 10));
         _scoreManager.AddScore(new Score("TAHEL", 11));*/
 
-        var scores = _scoreManager.GetHighScore().ToArray();
+        var scores = _scoreManager.SortHighScoreLeaderBoard().ToArray();
         for(int i = 0; i < scores.Length; i++)
         {
             var row = Instantiate(_rowUi, transform).GetComponent<RowUI>();
@@ -26,7 +26,7 @@ public class ScoreUI : MonoBehaviour
 
     public void ResetLeaderboard()
     {
-        _scoreManager?.ResetScore();
+        _scoreManager?.ResetScoreLeaderBoard();
 
         // Clear the content object by destroying all its child objects
         foreach (Transform child in transform)

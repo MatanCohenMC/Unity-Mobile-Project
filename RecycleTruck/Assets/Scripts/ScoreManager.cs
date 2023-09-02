@@ -3,42 +3,91 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
+    private const int k_ScoreToAdd = 10;
+    public static ScoreManager Instance { get; private set; }
     private ScoreData _scoresData;
+    public TextMeshProUGUI m_PlayerScoreText;
+    public TextMeshProUGUI m_HighScoreText;
+    private int m_PlayerScore;
+    private int m_HighScore;
+
 
     void Awake()
     {
+        Instance = this;
         var json = PlayerPrefs.GetString("scores", "{}");
         _scoresData = JsonUtility.FromJson<ScoreData>(json);
-        
+
+        if(_scoresData != null && _scoresData.scores.Count != 0)
+        {
+            m_HighScore = _scoresData.scores.First().score;
+        }
+
+        GameManager.Instance.OnGameSetup += SetupPlayerScore;
         // for first run of the game
         // _scoresData = new ScoreData();
     }
 
-    public IEnumerable<Score> GetHighScore()
+    private void Start()
+    {
+        updatePlayerScoreText();
+        updateHighScoreText();
+    }
+
+    public void SetupPlayerScore()
+    {
+        m_PlayerScore = 0;
+        updatePlayerScoreText();
+    }
+
+    public void AddPointsToPlayerScore()
+    {
+        m_PlayerScore += k_ScoreToAdd;
+        updatePlayerScoreText();
+
+        if (m_PlayerScore > m_HighScore)
+        {
+            m_HighScore = m_PlayerScore;
+            updateHighScoreText();
+        }
+    }
+
+    private void updatePlayerScoreText()
+    {
+        m_PlayerScoreText.text = "Your Score: " + m_PlayerScore.ToString();
+    }
+
+    private void updateHighScoreText()
+    {
+        m_HighScoreText.text = "HighScore: " + m_HighScore.ToString();
+    }
+
+    public IEnumerable<Score> SortHighScoreLeaderBoard()
     {
         return _scoresData.scores.OrderByDescending(x => x.score);
     }
 
-    public void AddScore(Score score)
+    public void AddScoreToLeaderBoard(Score score)
     {
         _scoresData.scores.Add(score);
     }
 
     private void OnDestroy()
     {
-        SaveScore();
+        SaveScoreLeaderBoard();
     }
 
-    public void SaveScore()
+    public void SaveScoreLeaderBoard()
     {
         var json = JsonUtility.ToJson(_scoresData);
         PlayerPrefs.SetString("scores", json);
     }
 
-    public void ResetScore()
+    public void ResetScoreLeaderBoard()
     {
         _scoresData.scores?.Clear();
         Debug.Log("Score Data was cleared");
@@ -52,9 +101,9 @@ public class ScoreManager : MonoBehaviour
 public class Score
 {
     public string name;
-    public float score;
+    public int score;
 
-    public Score(string name, float score)
+    public Score(string name, int score)
     {
         this.name = name;
         this.score = score;
