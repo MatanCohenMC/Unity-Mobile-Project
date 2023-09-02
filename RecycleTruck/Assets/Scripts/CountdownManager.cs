@@ -5,17 +5,9 @@ using UnityEngine.UI;
 
 public class CountdownManager : MonoBehaviour
 {
-    public static CountdownManager Instance { get; private set; }
     [SerializeField] private TextMeshProUGUI countdownText;
-    //private GameManager gameManager;
 
     private int countdownValue = 3;
-
-    private void Awake()
-    {
-        Instance = this;
-        //gameManager = FindObjectOfType<GameManager>();
-    }
 
     public void StartCountdown()
     {
@@ -35,7 +27,6 @@ public class CountdownManager : MonoBehaviour
         countdownText.text = "Go!";
         yield return new WaitForSeconds(1);
         countdownText.gameObject.SetActive(false); // Deactivate the countdown text
-        //gameManager.StartGame(); 
         GameManager.Instance.changeGameStateToPlaying();
     }
 }

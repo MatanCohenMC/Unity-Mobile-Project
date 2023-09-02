@@ -10,7 +10,9 @@ public class TruckManager : MonoBehaviour
     private TruckColor _currentColor;
     private float _nextChangeTime;
     public Material[] _bodyMaterials;
-    private MeshRenderer _bodyRenderer; 
+    private MeshRenderer _bodyRenderer;
+    private HealthManager m_HealthManager;
+
 
 
     private void Awake()
@@ -20,6 +22,12 @@ public class TruckManager : MonoBehaviour
         //ResetTruck();
         getBodyRendere();
     }
+
+    private void Start()
+    {
+        m_HealthManager = GameManager.Instance.GetComponent<HealthManager>();
+    }
+
 
     private void Update()
     {
@@ -56,14 +64,15 @@ public class TruckManager : MonoBehaviour
 
             if ((other.gameObject.tag.Contains(_currentColor.ToString())))
             {
-                ScoreManager.Instance.AddPointsToPlayerScore();
+                //ScoreManager.Instance.AddPointsToPlayerScore();
+                GameManager.Instance.GetComponent<ScoreManager>().AddPointsToPlayerScore();
             }
             else
             {
                 // Player hit wrong object, decrease lives and check if game over
-                HealthManager.Instance.DecreaseOrIncreaseHeartAmount(false);
+                m_HealthManager.DecreaseOrIncreaseHeartAmount(false);
 
-                if (HealthManager.Instance.HealthAmountRemain <= 0)
+                if (m_HealthManager.HealthAmountRemain <= 0)
                 {
                     GameManager.Instance.EndGame();
                 }
