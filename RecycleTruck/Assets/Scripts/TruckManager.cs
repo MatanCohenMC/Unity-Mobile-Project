@@ -31,7 +31,12 @@ public class TruckManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.CurrentGameState == GameState.Playing && Time.time >= _nextChangeTime)
+        if (GameManager.Instance.CurrentGameState == GameState.Idle)
+        {
+            // Ensure that while on Idle state the next change time wont be affected
+            _nextChangeTime += Time.deltaTime;
+        }
+        else if (GameManager.Instance.CurrentGameState == GameState.Playing && Time.time >= _nextChangeTime)
         {
             changeToRandomColor();
 
@@ -83,7 +88,6 @@ public class TruckManager : MonoBehaviour
 
     }
 
-
     private void removeObjectAfterCollisionWithTruck(Collider other)
     {
         // Find the GameObject with the "StripSpawner" script component
@@ -116,10 +120,16 @@ public class TruckManager : MonoBehaviour
 
     private void initializeColor()
     {
-        Debug.LogError("IM HERE (:::::::");
-
         // Set the initial state and schedule the first state change after a random delay
         _currentColor = TruckColor.Brown;
+        Material[] currentMaterials = _bodyRenderer.materials;
+
+        // Change the first element's material
+        currentMaterials[0] = _bodyMaterials[(int)_currentColor];
+
+        // Assign the modified materials array back to the body's MeshRenderer
+        _bodyRenderer.materials = currentMaterials;
+
         _nextChangeTime = Time.time + 10f;
     }
 

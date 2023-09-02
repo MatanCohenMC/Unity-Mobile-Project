@@ -45,8 +45,6 @@ public class GameManager : MonoBehaviour
         // Set the initial game state
         CurrentGameState = GameState.Idle;
         Debug.Log("Game state: Idle");
-
-
     }
 
     private void Start()
@@ -75,8 +73,29 @@ public class GameManager : MonoBehaviour
         setEndGameComponents();
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
+        setupGame();
     }
 
+    public void QuitGame()
+    {
+        CurrentGameState = GameState.GameOver;
+        Debug.Log("Game state: GameOver");
+        setupGame();
+    }
+
+    public void PauseAndUnPauseGame()
+    {
+        if (CurrentGameState == GameState.Idle)
+        {
+            CurrentGameState = GameState.Playing;
+            Debug.Log("Game state: Playing");
+        }
+        else if (CurrentGameState == GameState.Playing)
+        {
+            CurrentGameState = GameState.Idle;
+            Debug.Log("Game state: Idle");
+        }
+    }
     private void setEndGameComponents()
     {
         setEncouragePlayerText();
