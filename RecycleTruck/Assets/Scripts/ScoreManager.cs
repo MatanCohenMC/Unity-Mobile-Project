@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI m_HighScoreText;
     public int m_PlayerScore;
     public int m_HighScore;
+    public GameObject m_LeaderBoardContent;
 
     void Awake()
     {
@@ -82,8 +83,6 @@ public class ScoreManager : MonoBehaviour
         //temp.PresentSortedLeaderBoard();
         
         this.GetComponent<ScoreUI>().PresentSortedLeaderBoard();
-
-
     }
 
     private void OnDestroy()
