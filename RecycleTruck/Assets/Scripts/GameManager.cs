@@ -20,11 +20,13 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState { get; private set; }
     public string PlayerName { get; private set; }
     private const int k_Invalid = -1;
+    private const string k_DefaultPlayerName = "Player";
     public GameObject m_GameOverCanvas;
     private ScoreManager m_ScoreManager;
     private GameState m_PreviousGameStatus = GameState.Idle;
     private float m_CurrentTimeScale;
     [SerializeField] private GameObject m_QuitButton;
+    
 
     //public HealthManager m_HealthManager;
 
@@ -48,7 +50,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        m_ScoreManager = this.GetComponent<ScoreManager>();
+        m_ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();      
+        SetPlayerName(k_DefaultPlayerName);
     }
 
     public void StartGame()
@@ -60,6 +63,7 @@ public class GameManager : MonoBehaviour
     // This method is used when game is ending
     public void EndGame()
     {
+        m_ScoreManager.AddScoreToLeaderBoard(new Score(PlayerName, m_ScoreManager.m_PlayerScore));
         // unactivate HUBCanvas
         GameObject.Find("HUBCanvas").SetActive(false);
         // activate GameOverCanvas

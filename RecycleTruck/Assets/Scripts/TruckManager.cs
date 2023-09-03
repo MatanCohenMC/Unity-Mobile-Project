@@ -63,7 +63,7 @@ public class TruckManager : MonoBehaviour
             if ((other.gameObject.tag.Contains(m_CurrentColor.ToString())))
             {
                 //ScoreManager.Instance.AddPointsToPlayerScore();
-                GameManager.Instance.GetComponent<ScoreManager>().AddPointsToPlayerScore();
+                GameObject.Find("ScoreManager").GetComponent<ScoreManager>().AddPointsToPlayerScore();
             }
             else
             {

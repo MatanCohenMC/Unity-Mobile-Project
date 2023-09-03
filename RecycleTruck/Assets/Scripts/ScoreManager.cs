@@ -14,27 +14,27 @@ public class ScoreManager : MonoBehaviour
     public int m_PlayerScore;
     public int m_HighScore;
 
-
     void Awake()
     {
-        // import data from PlayerPrefs
-        var json = PlayerPrefs.GetString("scores", "{}");
-        // import data from json and placing in m_ScoresData
-        m_ScoresData = JsonUtility.FromJson<ScoreData>(json);
+        //// import data from PlayerPrefs
+        //var json = PlayerPrefs.GetString("scores", "{}");
+        //// import data from json and placing in m_ScoresData
+        //m_ScoresData = JsonUtility.FromJson<ScoreData>(json);
+
+        // for first run of the game
+        m_ScoresData = new ScoreData();
 
         // get the highscore value from the data.
-        if(m_ScoresData != null && m_ScoresData.scores.Count != 0)
+        if (m_ScoresData != null && m_ScoresData.scores.Count != 0)
         {
             m_HighScore = m_ScoresData.scores.First().score;
         }
 
-        GameManager.Instance.OnGameSetup += SetupPlayerScore;
-        // for first run of the game
-        // _scoresData = new ScoreData();
     }
 
     private void Start()
     {
+        GameManager.Instance.OnGameSetup += SetupPlayerScore;
         updatePlayerScoreText();
         updateHighScoreText();
     }
@@ -67,14 +67,23 @@ public class ScoreManager : MonoBehaviour
         m_HighScoreText.text = "HighScore: " + m_HighScore.ToString();
     }
 
-    public IEnumerable<Score> SortHighScoreLeaderBoard()
+    public IEnumerable<Score> SortedHighScoreLeaderBoard()
     {
         return m_ScoresData.scores.OrderByDescending(x => x.score);
     }
 
+
     public void AddScoreToLeaderBoard(Score score)
     {
+        Debug.Log($"name: {score.name}, score: {score.score}");
         m_ScoresData.scores.Add(score);
+        Debug.Log($"ADDED");
+        //ScoreUI temp = this.GetComponent<ScoreUI>();
+        //temp.PresentSortedLeaderBoard();
+        
+        this.GetComponent<ScoreUI>().PresentSortedLeaderBoard();
+
+
     }
 
     private void OnDestroy()
@@ -111,6 +120,7 @@ public class Score
     }
 }
 
+[Serializable]
 public class ScoreData
 {
     public List<Score> scores;
