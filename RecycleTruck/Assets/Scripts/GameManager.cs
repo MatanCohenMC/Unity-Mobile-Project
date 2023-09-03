@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         //////////////////////////////////////////////////////////////////////////////////////
         
-        PauseAndUnPauseGame();
+        //PauseAndUnPauseGame();
         
 
         CurrentGameState = GameState.GameOver;
