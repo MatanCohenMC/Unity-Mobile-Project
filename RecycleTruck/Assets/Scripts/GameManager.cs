@@ -25,7 +25,9 @@ public class GameManager : MonoBehaviour
     private const int k_Invalid = -1;
     public GameObject m_GameOverCanvas;
     private ScoreManager m_ScoreManager;
-   
+    private GameState m_PreviousGameStatus = GameState.Idle;
+    private float m_CurrentTimeScale;
+
     //public HealthManager m_HealthManager;
 
     private void Awake()
@@ -78,6 +80,11 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
+        //////////////////////////////////////////////////////////////////////////////////////
+        
+        PauseAndUnPauseGame();
+        
+
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
         setupGame();
@@ -85,16 +92,33 @@ public class GameManager : MonoBehaviour
 
     public void PauseAndUnPauseGame()
     {
-        if (CurrentGameState == GameState.Idle)
+        GameObject hintWindowObject = GameObject.Find("HintWindow");
+
+        if(hintWindowObject != null) // unpause the game
         {
-            CurrentGameState = GameState.Playing;
-            Debug.Log("Game state: Playing");
+            Time.timeScale = m_CurrentTimeScale;
+            CurrentGameState = m_PreviousGameStatus;
+            Debug.Log($"Game state: {CurrentGameState}");
         }
-        else if (CurrentGameState == GameState.Playing)
+        else // pause the game
         {
+            m_CurrentTimeScale = Time.timeScale;
+            m_PreviousGameStatus = CurrentGameState;
             CurrentGameState = GameState.Idle;
             Debug.Log("Game state: Idle");
+            Time.timeScale = 0;
         }
+        //if (CurrentGameState == GameState.Idle)
+        //{
+        //    CurrentGameState = GameState.Playing;
+        //    Debug.Log("Game state: Playing");
+        //}
+        //else if (CurrentGameState == GameState.Playing)
+        //{
+        //    CurrentGameState = GameState.Idle;
+        //    Debug.Log("Game state: Idle");
+        //}
+        
     }
     private void setEndGameComponents()
     {
