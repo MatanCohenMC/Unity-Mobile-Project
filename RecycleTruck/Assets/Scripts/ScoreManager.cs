@@ -8,30 +8,34 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     private const int k_ScoreToAdd = 10;
-    private ScoreData _scoresData;
+    private ScoreData m_ScoresData;
     public TextMeshProUGUI m_PlayerScoreText;
     public TextMeshProUGUI m_HighScoreText;
     public int m_PlayerScore;
     public int m_HighScore;
-
+    public GameObject m_LeaderBoardContent;
 
     void Awake()
     {
-        var json = PlayerPrefs.GetString("scores", "{}");
-        _scoresData = JsonUtility.FromJson<ScoreData>(json);
+        //// import data from PlayerPrefs
+        //var json = PlayerPrefs.GetString("scores", "{}");
+        //// import data from json and placing in m_ScoresData
+        //m_ScoresData = JsonUtility.FromJson<ScoreData>(json);
 
-        if(_scoresData != null && _scoresData.scores.Count != 0)
+        // for first run of the game
+        m_ScoresData = new ScoreData();
+
+        // get the highscore value from the data.
+        if (m_ScoresData != null && m_ScoresData.scores.Count != 0)
         {
-            m_HighScore = _scoresData.scores.First().score;
+            m_HighScore = m_ScoresData.scores.First().score;
         }
 
-        GameManager.Instance.OnGameSetup += SetupPlayerScore;
-        // for first run of the game
-        // _scoresData = new ScoreData();
     }
 
     private void Start()
     {
+        GameManager.Instance.OnGameSetup += SetupPlayerScore;
         updatePlayerScoreText();
         updateHighScoreText();
     }
@@ -64,14 +68,21 @@ public class ScoreManager : MonoBehaviour
         m_HighScoreText.text = "HighScore: " + m_HighScore.ToString();
     }
 
-    public IEnumerable<Score> SortHighScoreLeaderBoard()
+    public IEnumerable<Score> SortedHighScoreLeaderBoard()
     {
-        return _scoresData.scores.OrderByDescending(x => x.score);
+        return m_ScoresData.scores.OrderByDescending(x => x.score);
     }
+
 
     public void AddScoreToLeaderBoard(Score score)
     {
-        _scoresData.scores.Add(score);
+        Debug.Log($"name: {score.name}, score: {score.score}");
+        m_ScoresData.scores.Add(score);
+        Debug.Log($"ADDED");
+        //ScoreUI temp = this.GetComponent<ScoreUI>();
+        //temp.PresentSortedLeaderBoard();
+        
+        this.GetComponent<ScoreUI>().PresentSortedLeaderBoard();
     }
 
     private void OnDestroy()
@@ -81,13 +92,13 @@ public class ScoreManager : MonoBehaviour
 
     public void SaveScoreLeaderBoard()
     {
-        var json = JsonUtility.ToJson(_scoresData);
+        var json = JsonUtility.ToJson(m_ScoresData);
         PlayerPrefs.SetString("scores", json);
     }
 
     public void ResetScoreLeaderBoard()
     {
-        _scoresData.scores?.Clear();
+        m_ScoresData.scores?.Clear();
         Debug.Log("Score Data was cleared");
 
     }
@@ -108,6 +119,7 @@ public class Score
     }
 }
 
+[Serializable]
 public class ScoreData
 {
     public List<Score> scores;

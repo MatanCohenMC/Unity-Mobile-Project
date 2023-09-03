@@ -1,10 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
 using TMPro;
 using System.Reflection;
-
 
 public enum GameState
 {
@@ -23,9 +20,14 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState { get; private set; }
     public string PlayerName { get; private set; }
     private const int k_Invalid = -1;
+    private const string k_DefaultPlayerName = "Player";
     public GameObject m_GameOverCanvas;
     private ScoreManager m_ScoreManager;
-   
+    private GameState m_PreviousGameStatus = GameState.Idle;
+    private float m_CurrentTimeScale;
+    [SerializeField] private GameObject m_QuitButton;
+    
+
     //public HealthManager m_HealthManager;
 
     private void Awake()
@@ -43,21 +45,47 @@ public class GameManager : MonoBehaviour
         DOTween.Init();
 
         // Set the initial game state
-        CurrentGameState = GameState.Idle;
-        Debug.Log("Game state: Idle");
+        changeGameStateToIdle();
     }
 
     private void Start()
     {
-        m_ScoreManager = this.GetComponent<ScoreManager>();
+        m_ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();      
+        SetPlayerName(k_DefaultPlayerName);
     }
-
 
     public void StartGame()
     {
-        setupGame(); 
-        //CountdownManager.Instance.StartCountdown();
-        GameObject.Find("CountDownPanel").GetComponent<CountdownManager>().StartCountdown();
+        setupGame();
+        GameObject.Find("CountDownPanel").GetComponent<CountdownManager>().StartCountdown(); // start the countDown
+    }
+
+    // This method is used when game is ending
+    public void EndGame()
+    {
+        m_ScoreManager.AddScoreToLeaderBoard(new Score(PlayerName, m_ScoreManager.m_PlayerScore));
+        // unactivate HUBCanvas
+        GameObject.Find("HUBCanvas").SetActive(false);
+        // activate GameOverCanvas
+        m_GameOverCanvas.SetActive(true);
+        setScoreAndFinalTextForTheEndGame();
+        changeGameStateToGameOver();
+        setupGame();
+    }
+
+    // This method is used when player quits the game, changing the game state to "Game Over" and resetting the game setup.
+    public void QuitGame()
+    {
+        // Change the game state to "Game Over"
+        changeGameStateToGameOver();
+        // Reset the game setup
+        setupGame();
+    }
+
+    private void changeGameStateToIdle()
+    {
+        CurrentGameState = GameState.Idle;
+        Debug.Log("Game state: Idle");
     }
 
     public void changeGameStateToPlaying()
@@ -66,47 +94,48 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game state: Playing");
     }
 
-    public void EndGame()
-    {
-        GameObject.Find("HUBCanvas").SetActive(false);
-        m_GameOverCanvas.SetActive(true);
-        setEndGameComponents();
-        CurrentGameState = GameState.GameOver;
-        Debug.Log("Game state: GameOver");
-        setupGame();
-    }
-
-    public void QuitGame()
+    private void changeGameStateToGameOver()
     {
         CurrentGameState = GameState.GameOver;
         Debug.Log("Game state: GameOver");
-        setupGame();
     }
 
-    public void PauseAndUnPauseGame()
+    // This method is used to pause and unpause the game when the player hit the hint button.
+    public void PauseAndUnPauseGameWhenUsingHint()
     {
-        if (CurrentGameState == GameState.Idle)
+        GameObject hintWindowObject = GameObject.Find("HintWindow");
+
+        if(hintWindowObject != null) // unpause the game
         {
-            CurrentGameState = GameState.Playing;
-            Debug.Log("Game state: Playing");
+            m_QuitButton.SetActive(true);
+            Time.timeScale = m_CurrentTimeScale;
+            CurrentGameState = m_PreviousGameStatus;
+            Debug.Log($"Game state: {CurrentGameState}");
         }
-        else if (CurrentGameState == GameState.Playing)
+        else // pause the game
         {
-            CurrentGameState = GameState.Idle;
-            Debug.Log("Game state: Idle");
-        }
+            m_QuitButton.SetActive(false);
+            m_CurrentTimeScale = Time.timeScale;
+            m_PreviousGameStatus = CurrentGameState;
+            changeGameStateToIdle();
+            Time.timeScale = 0;
+        }       
     }
-    private void setEndGameComponents()
+
+    // This method is responsible for setting the final score text and setting the encouraging text to player when the game is over.
+    private void setScoreAndFinalTextForTheEndGame()
     {
-        setEncouragePlayerText();
+        setEncouragePlayerTextWhenGameOver();
         setPlayerFinalScoreText();
     }
 
-    private void setEncouragePlayerText()
+    // This method sets the text displayed to encourage the player when the game is over.
+    private void setEncouragePlayerTextWhenGameOver()
     {
         TextMeshProUGUI EncouragePlayerObject = GameObject.Find("EncouragePlayerText").transform.GetComponent<TextMeshProUGUI>();
         int playerScore = getIntFieldInScoreManagerScript("m_PlayerScore");
 
+        // if player is one of the leaders in the game and has more than 0 points
         if (playerScore > 0 && playerScore == getIntFieldInScoreManagerScript("m_HighScore"))
         {
             EncouragePlayerObject.text = "Keep up the eco-efforts,\nyou're one of the champions of our green world!";
@@ -115,8 +144,10 @@ public class GameManager : MonoBehaviour
         {
             EncouragePlayerObject.text = "Stay green, your eco-dedication shines bright!";
         }
-    }    
+    }
 
+    // This method retrieves the integer value of a specified field ('i_FieldName') from the ScoreManager script
+    // using reflection. If the field is found, its value is returned; otherwise, it returns 'k_Invalid' as an error indicator.
     private int getIntFieldInScoreManagerScript(string i_FieldName)
     {
         int fieldValue = k_Invalid;
@@ -139,12 +170,16 @@ public class GameManager : MonoBehaviour
         return fieldValue;
     }
 
+    // This method updates the player's final score text.
     private void setPlayerFinalScoreText()
     {
+        // Find the 'PlayerFinalScoreText' UI element and access its TextMeshProUGUI component.
         TextMeshProUGUI PlayerFinalScoreObject = GameObject.Find("PlayerFinalScoreText").transform.GetComponent<TextMeshProUGUI>();
+        // Set the text of 'PlayerFinalScoreText' to the player's score.
         PlayerFinalScoreObject.text = getIntFieldInScoreManagerScript("m_PlayerScore").ToString();
     }
 
+    // this method sets player's name
     public void SetPlayerName(string name)
     {
         if(name != string.Empty)
@@ -154,18 +189,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //public void ResetGame()
-    //{
-    //    HealthManager.Instance.ResetLives();
-    //    ScoreManager.Instance.ResetPlayerScore();
-
-    //}
-
+    // This method is used to set up the game. It invokes the 'OnGameSetup' delegate to notify listeners
+    // that the game should be initialized.
     public void setupGame()
     {
         // Invoke the game reset delegate to notify listeners that the game has been reset.
         OnGameSetup?.Invoke();
     }
-
 }
 

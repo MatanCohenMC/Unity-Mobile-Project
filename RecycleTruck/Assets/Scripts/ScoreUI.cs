@@ -1,40 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ScoreUI : MonoBehaviour
 {
-    public ScoreManager _scoreManager;
-    public RowUI _rowUi;
+    private const int k_MaximumPlayersOnLeaderBoard = 5;
+    private ScoreManager m_ScoreManager;
+    private GameObject m_LeaderBoardContent;
+    [SerializeField] private RowUI m_RowUI;
 
     void Start()
     {
-        /*_scoreManager.AddScore(new Score("MATAN", 10));
-        _scoreManager.AddScore(new Score("TAHEL", 11));*/
+        m_ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        m_LeaderBoardContent = m_ScoreManager.m_LeaderBoardContent;
+        PresentSortedLeaderBoard();
+    }
 
-        var scores = _scoreManager.SortHighScoreLeaderBoard().ToArray();
-        for(int i = 0; i < scores.Length; i++)
+    // this method sort highScore leaderBoard and present it in a table format
+    public void PresentSortedLeaderBoard()
+    {
+        foreach (Transform child in m_LeaderBoardContent.transform)
         {
-            var row = Instantiate(_rowUi, transform).GetComponent<RowUI>();
-            row.rank.text = (i + 1).ToString();
-            row.name.text = scores[i].name;
-            row.score.text = scores[i].score.ToString();
+            Destroy(child.gameObject);          
+        }
+
+        Debug.Log($"presenting");
+
+        var scores = m_ScoreManager.SortedHighScoreLeaderBoard().ToArray();
+        for (int i = 0; i < scores.Length && i < k_MaximumPlayersOnLeaderBoard; i++)
+        {
+            Debug.Log("length: " + scores.Length);
+
+            var row = Instantiate(m_RowUI, m_LeaderBoardContent.transform).GetComponent<RowUI>();
+            row.Rank.text = (i + 1).ToString();
+            Debug.Log("name:" + scores[i].name);
+            Debug.Log("score: " + scores[i].score.ToString());
+            row.Name.text = scores[i].name;
+            row.Score.text = scores[i].score.ToString();
         }
     }
 
+
+
+    // this method resets the leaderboard.
     public void ResetLeaderboard()
     {
-        _scoreManager?.ResetScoreLeaderBoard();
+        GameObject.Find("ScoreManager").GetComponent<ScoreManager>()?.ResetScoreLeaderBoard();
 
         // Clear the content object by destroying all its child objects
-        foreach (Transform child in transform)
+        foreach (Transform child in m_LeaderBoardContent.transform)
         {
             Destroy(child.gameObject);
         }
-    }
-
-    
+    }   
 }
 
