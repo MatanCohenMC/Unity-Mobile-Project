@@ -8,7 +8,7 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     private const int k_ScoreToAdd = 10;
-    private ScoreData _scoresData;
+    private ScoreData m_ScoresData;
     public TextMeshProUGUI m_PlayerScoreText;
     public TextMeshProUGUI m_HighScoreText;
     public int m_PlayerScore;
@@ -17,12 +17,15 @@ public class ScoreManager : MonoBehaviour
 
     void Awake()
     {
+        // import data from PlayerPrefs
         var json = PlayerPrefs.GetString("scores", "{}");
-        _scoresData = JsonUtility.FromJson<ScoreData>(json);
+        // import data from json and placing in m_ScoresData
+        m_ScoresData = JsonUtility.FromJson<ScoreData>(json);
 
-        if(_scoresData != null && _scoresData.scores.Count != 0)
+        // get the highscore value from the data.
+        if(m_ScoresData != null && m_ScoresData.scores.Count != 0)
         {
-            m_HighScore = _scoresData.scores.First().score;
+            m_HighScore = m_ScoresData.scores.First().score;
         }
 
         GameManager.Instance.OnGameSetup += SetupPlayerScore;
@@ -66,12 +69,12 @@ public class ScoreManager : MonoBehaviour
 
     public IEnumerable<Score> SortHighScoreLeaderBoard()
     {
-        return _scoresData.scores.OrderByDescending(x => x.score);
+        return m_ScoresData.scores.OrderByDescending(x => x.score);
     }
 
     public void AddScoreToLeaderBoard(Score score)
     {
-        _scoresData.scores.Add(score);
+        m_ScoresData.scores.Add(score);
     }
 
     private void OnDestroy()
@@ -81,13 +84,13 @@ public class ScoreManager : MonoBehaviour
 
     public void SaveScoreLeaderBoard()
     {
-        var json = JsonUtility.ToJson(_scoresData);
+        var json = JsonUtility.ToJson(m_ScoresData);
         PlayerPrefs.SetString("scores", json);
     }
 
     public void ResetScoreLeaderBoard()
     {
-        _scoresData.scores?.Clear();
+        m_ScoresData.scores?.Clear();
         Debug.Log("Score Data was cleared");
 
     }

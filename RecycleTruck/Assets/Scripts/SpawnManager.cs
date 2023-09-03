@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    private StripSpawner _stripSpawner;
+    private StripSpawner m_StripSpawner;
 
     void Start()
     {
-        _stripSpawner = GetComponent<StripSpawner>();
+        m_StripSpawner = GetComponent<StripSpawner>();
     }
 
     public void SpawnTriggerEntered()
     {
-        _stripSpawner.MoveStrip();
+        m_StripSpawner.MoveStrip();
     }
 }

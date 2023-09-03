@@ -1,32 +1,33 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CountdownManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private TextMeshProUGUI m_CountdownText;
 
-    private int countdownValue = 3;
+    private const int k_CountdownValue = 3;
 
+    // This method initiates the countdown.
     public void StartCountdown()
     {
         StartCoroutine(CountdownCoroutine());
     }
 
+    // this method is responsible on activating the countDown
     private IEnumerator CountdownCoroutine()
     {
-        countdownText.gameObject.SetActive(true); // Activate the countdown text
+        m_CountdownText.gameObject.SetActive(true); // Activate the countdown text
 
-        for (int i = countdownValue; i >= 1; i--)
+        for (int i = k_CountdownValue; i >= 1; i--)
         {
-            countdownText.text = i.ToString(); // Update the countdown text
+            m_CountdownText.text = i.ToString(); // Update the countdown text
             yield return new WaitForSeconds(1);
         }
 
-        countdownText.text = "Go!";
+        m_CountdownText.text = "Go!";
         yield return new WaitForSeconds(1);
-        countdownText.gameObject.SetActive(false); // Deactivate the countdown text
+        m_CountdownText.gameObject.SetActive(false); // Deactivate the countdown text
         GameManager.Instance.changeGameStateToPlaying();
     }
 }

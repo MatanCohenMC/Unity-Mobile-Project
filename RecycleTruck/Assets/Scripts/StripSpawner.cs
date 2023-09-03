@@ -4,37 +4,41 @@ using UnityEngine;
 
 public class StripSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _strips;
-    private float _offset = 24.14f;
-    private float _stripsX = 0f;
-    private float _stripsY = 100f;
+    [SerializeField] private List<GameObject> m_Strips;
+    private float m_Offset = 24.14f;
+    private float m_StripsX = 0f;
+    private float m_StripsY = 100f;
     public const int m_NumOfLanes = 3;
     public GameObject[] m_ObjectsToCollect;
 
     void Start()
     {
-        if (_strips is { Count: > 0 })
+        // ordering strips by ascending order
+        if (m_Strips is { Count: > 0 })
         {
-            _strips = _strips.OrderBy(strip => strip.transform.position.z).ToList();
+            m_Strips = m_Strips.OrderBy(strip => strip.transform.position.z).ToList();
         }
 
-        for (int i = 1; i < _strips.Count; i++)
+        // spawning random object on strips
+        for (int i = 1; i < m_Strips.Count; i++)
         {
-            spawnRandomObjectOnRandomLaneOfStrip(_strips[i]);
+            spawnRandomObjectOnRandomLaneOfStrip(m_Strips[i]);
         }
     }
 
+    // this method moves strip to the end of the road.
     public void MoveStrip()
     {
-        GameObject movedStrip = _strips[0];
+        GameObject movedStrip = m_Strips[0];
         RemoveObjectFromStrip(movedStrip.transform);
-        _strips.Remove(movedStrip);
-        float newZ = _strips[^1].transform.position.z + _offset;
-        movedStrip.transform.position = new Vector3(_stripsX, _stripsY, newZ);
+        m_Strips.Remove(movedStrip);
+        float newZ = m_Strips[^1].transform.position.z + m_Offset;
+        movedStrip.transform.position = new Vector3(m_StripsX, m_StripsY, newZ);
         spawnRandomObjectOnRandomLaneOfStrip(movedStrip);
-        _strips.Add(movedStrip);
+        m_Strips.Add(movedStrip);
     }
 
+    // this method removes the random object from the i_StripTransform
     public void RemoveObjectFromStrip(Transform i_StripTransform)
     {
         // the transform of the object on the strip we want to remove.
@@ -50,23 +54,9 @@ public class StripSpawner : MonoBehaviour
                 break;
             }
         }
-
-        
-
-        
-
-        //int childCount = i_StripTransform.childCount;
-        //for (int i = 0; i < childCount; i++)
-        //{
-        //    Transform childTransform = i_StripTransform.GetChild(i);
-        //    if (childTransform.name.Contains("ToCollect"))
-        //    {
-        //        transfromOfObject = childTransform;
-        //        break;
-        //    }
-        //}
     }
 
+    // this method spawns random object on random lane of strip
     private void spawnRandomObjectOnRandomLaneOfStrip(GameObject i_Strip)
     {
         int randomObjectIndex;

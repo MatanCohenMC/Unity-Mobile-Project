@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RowUI : MonoBehaviour
 {
-    public TextMeshProUGUI rank;
-    public TextMeshProUGUI name;
-    public TextMeshProUGUI score;
+    public TextMeshProUGUI m_Rank;
+    public TextMeshProUGUI m_Name;
+    public TextMeshProUGUI m_Score;
 }
