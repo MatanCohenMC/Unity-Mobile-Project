@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ScoreUI : MonoBehaviour
 {
+    private const int k_MaximumPlayersOnLeaderBoard = 5;
     private ScoreManager m_ScoreManager;
     private GameObject m_LeaderBoardContent;
     [SerializeField] private RowUI m_RowUI;
@@ -19,16 +20,13 @@ public class ScoreUI : MonoBehaviour
     {
         foreach (Transform child in m_LeaderBoardContent.transform)
         {
-            if(child.name.Contains("LeaderBoardRow"))
-            {
-                Destroy(child.gameObject);
-            }
+            Destroy(child.gameObject);          
         }
 
         Debug.Log($"presenting");
 
         var scores = m_ScoreManager.SortedHighScoreLeaderBoard().ToArray();
-        for (int i = 0; i < scores.Length; i++)
+        for (int i = 0; i < scores.Length && i < k_MaximumPlayersOnLeaderBoard; i++)
         {
             Debug.Log("length: " + scores.Length);
 
