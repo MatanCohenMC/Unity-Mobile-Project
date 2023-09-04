@@ -85,7 +85,6 @@ public class LineSelectorBySwipe : MonoBehaviour
         m_CurrentTween = _truck.DOMove(targetPosition, m_AnimationDuration).SetEase(Ease.OutBack).OnComplete(() => m_CurrentTween = null);
         m_CurrentTween.Play();
 
-        yield return new WaitForSeconds(2.5f); // Wait for animation duration
-        //yield return new WaitForSeconds(m_AnimationDuration); // Wait for animation duration
+        yield return new WaitForSeconds(m_AnimationDuration); // Wait for animation duration
     }
 }
