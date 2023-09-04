@@ -27,9 +27,6 @@ public class GameManager : MonoBehaviour
     private float m_CurrentTimeScale;
     [SerializeField] private GameObject m_QuitButton;
     
-
-    //public HealthManager m_HealthManager;
-
     private void Awake()
     {
         if (Instance == null)
@@ -159,7 +156,6 @@ public class GameManager : MonoBehaviour
         {
             // Get the value of 'i_FieldName' from the script.
             fieldValue = (int)fieldInfo.GetValue(m_ScoreManager);
-
             Debug.Log($"{i_FieldName} Value: {fieldValue}");
         }
         else
