@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,11 +16,6 @@ public class ScoreManager : MonoBehaviour
 
     void Awake()
     {
-        //// import data from PlayerPrefs
-        //var json = PlayerPrefs.GetString("scores", "{}");
-        //// import data from json and placing in m_ScoresData
-        //m_ScoresData = JsonUtility.FromJson<ScoreData>(json);
-
         // for first run of the game
         m_ScoresData = new ScoreData();
 
@@ -30,22 +24,24 @@ public class ScoreManager : MonoBehaviour
         {
             m_HighScore = m_ScoresData.scores.First().score;
         }
-
     }
 
     private void Start()
     {
+        // Subscribe the SetupPlayerScore method to the OnGameSetup event in the GameManager instance.
         GameManager.Instance.OnGameSetup += SetupPlayerScore;
         updatePlayerScoreText();
         updateHighScoreText();
     }
 
+    // this method initializes the player's score and updates the displayed player score text.
     public void SetupPlayerScore()
     {
         m_PlayerScore = 0;
         updatePlayerScoreText();
     }
 
+    // this method adds points to the player's score, updates the displayed player score text, and checks for a new high score.
     public void AddPointsToPlayerScore()
     {
         m_PlayerScore += k_ScoreToAdd;
@@ -58,52 +54,38 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    // this method updates the displayed player score text with the current player score.
     private void updatePlayerScoreText()
     {
         m_PlayerScoreText.text = "Your Score: " + m_PlayerScore.ToString();
     }
 
+    // this method updates the displayed high score text with the current high score.
     private void updateHighScoreText()
     {
         m_HighScoreText.text = "HighScore: " + m_HighScore.ToString();
     }
 
+    // this method return a sorted leaderboard of the highscores
     public IEnumerable<Score> SortedHighScoreLeaderBoard()
     {
         return m_ScoresData.scores.OrderByDescending(x => x.score);
     }
 
-
+    // this method adds a Score to leaderBoard
     public void AddScoreToLeaderBoard(Score score)
     {
-        Debug.Log($"name: {score.name}, score: {score.score}");
-        m_ScoresData.scores.Add(score);
-        Debug.Log($"ADDED");
-        //ScoreUI temp = this.GetComponent<ScoreUI>();
-        //temp.PresentSortedLeaderBoard();
-        
+        m_ScoresData.scores.Add(score);       
         this.GetComponent<ScoreUI>().PresentSortedLeaderBoard();
     }
 
-    private void OnDestroy()
-    {
-        SaveScoreLeaderBoard();
-    }
-
-    public void SaveScoreLeaderBoard()
-    {
-        var json = JsonUtility.ToJson(m_ScoresData);
-        PlayerPrefs.SetString("scores", json);
-    }
-
+    // this method resets LeaderBoard
     public void ResetScoreLeaderBoard()
     {
         m_ScoresData.scores?.Clear();
         Debug.Log("Score Data was cleared");
-
     }
 }
-
 
 
 [Serializable]
