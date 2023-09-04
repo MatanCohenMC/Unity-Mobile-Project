@@ -5,17 +5,16 @@ using UnityEngine;
 public class CountdownManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI m_CountdownText;
-
     private const int k_CountdownValue = 3;
 
     // This method initiates the countdown.
     public void StartCountdown()
     {
-        StartCoroutine(CountdownCoroutine());
+        StartCoroutine(countdownCoroutine());
     }
 
     // this method is responsible on activating the countDown
-    private IEnumerator CountdownCoroutine()
+    private IEnumerator countdownCoroutine()
     {
         m_CountdownText.gameObject.SetActive(true); // Activate the countdown text
 
