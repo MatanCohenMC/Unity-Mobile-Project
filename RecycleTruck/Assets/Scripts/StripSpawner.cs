@@ -5,9 +5,9 @@ using UnityEngine;
 public class StripSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> m_Strips;
-    private float m_Offset = 24.14f;
-    private float m_StripsX = 0f;
-    private float m_StripsY = 100f;
+    private readonly float r_Offset = 24.14f;
+    private readonly float r_StripsX = 0f;
+    private readonly float r_StripsY = 100f;
     public const int m_NumOfLanes = 3;
     public GameObject[] m_ObjectsToCollect;
 
@@ -32,8 +32,8 @@ public class StripSpawner : MonoBehaviour
         GameObject movedStrip = m_Strips[0];
         RemoveObjectFromStrip(movedStrip.transform);
         m_Strips.Remove(movedStrip);
-        float newZ = m_Strips[^1].transform.position.z + m_Offset;
-        movedStrip.transform.position = new Vector3(m_StripsX, m_StripsY, newZ);
+        float newZ = m_Strips[^1].transform.position.z + r_Offset;
+        movedStrip.transform.position = new Vector3(r_StripsX, r_StripsY, newZ);
         spawnRandomObjectOnRandomLaneOfStrip(movedStrip);
         m_Strips.Add(movedStrip);
     }
