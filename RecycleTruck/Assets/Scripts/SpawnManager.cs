@@ -6,6 +6,11 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
+        getMembersComponents();
+    }
+
+    private void getMembersComponents()
+    {
         m_StripSpawner = GetComponent<StripSpawner>();
     }
 
