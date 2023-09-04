@@ -10,47 +10,50 @@ public class ScoreUI : MonoBehaviour
 
     void Start()
     {
+        getMembersComponents();
+        PresentSortedLeaderBoard();
+    }
+
+    // this method gets components of members
+    private void getMembersComponents()
+    {
         m_ScoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         m_LeaderBoardContent = m_ScoreManager.m_LeaderBoardContent;
-        PresentSortedLeaderBoard();
     }
 
     // this method sort highScore leaderBoard and present it in a table format
     public void PresentSortedLeaderBoard()
     {
-        foreach (Transform child in m_LeaderBoardContent.transform)
-        {
-            Destroy(child.gameObject);          
-        }
-
-        Debug.Log($"presenting");
-
+        removeContentRows();
         var scores = m_ScoreManager.SortedHighScoreLeaderBoard().ToArray();
+        addContentRows(scores);
+    }
+
+    // this method adds content object rows to leaderboard
+    private void addContentRows(Score[] scores)
+    {
         for (int i = 0; i < scores.Length && i < k_MaximumPlayersOnLeaderBoard; i++)
         {
-            Debug.Log("length: " + scores.Length);
-
             var row = Instantiate(m_RowUI, m_LeaderBoardContent.transform).GetComponent<RowUI>();
             row.Rank.text = (i + 1).ToString();
-            Debug.Log("name:" + scores[i].name);
-            Debug.Log("score: " + scores[i].score.ToString());
             row.Name.text = scores[i].name;
             row.Score.text = scores[i].score.ToString();
         }
     }
 
-
-
     // this method resets the leaderboard.
     public void ResetLeaderboard()
     {
         GameObject.Find("ScoreManager").GetComponent<ScoreManager>()?.ResetScoreLeaderBoard();
-
-        // Clear the content object by destroying all its child objects
+        removeContentRows();
+    }  
+            
+    // Clear the content object by destroying all its child objects
+    private void removeContentRows()
+    {
         foreach (Transform child in m_LeaderBoardContent.transform)
         {
             Destroy(child.gameObject);
         }
-    }   
+    }
 }
-

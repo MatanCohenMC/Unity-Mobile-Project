@@ -3,16 +3,21 @@ using UnityEngine;
 public class RoadManager : MonoBehaviour
 {
     [SerializeField] private float m_InitialScrollSpeed = 5f;
-    private Vector3 _initialPosition;
-    private float _currentScrollSpeed;
-    private float _timer;
-
+    private Vector3 m_InitialPosition;
+    private float m_CurrentScrollSpeed;
+    private float m_Timer;
 
     private void Start()
     {
-        _initialPosition = transform.position;
-        _currentScrollSpeed = m_InitialScrollSpeed;
-        _timer = 0f;
+        setInitValues();
+    }
+
+    // this method set init values
+    private void setInitValues()
+    {
+        m_InitialPosition = transform.position;
+        m_CurrentScrollSpeed = m_InitialScrollSpeed;
+        m_Timer = 0f;
     }
 
     private void Update()
@@ -21,7 +26,7 @@ public class RoadManager : MonoBehaviour
 
         if (currentGameState == GameState.Playing)
         {
-            _timer += Time.deltaTime; // Update the timer when in Playing state
+            m_Timer += Time.deltaTime; // Update the timer when in Playing state
             parallaxScrolling();
         }
     }
@@ -29,10 +34,10 @@ public class RoadManager : MonoBehaviour
     // This method implements parallax scrolling.
     private void parallaxScrolling()
     {
-        float offset = _timer * _currentScrollSpeed; // Use the cached timer value
+        float offset = m_Timer * m_CurrentScrollSpeed; // Use the cached timer value
 
         // Apply the offset to the background's position with a decreasing z value
-        Vector3 newPosition = new Vector3(_initialPosition.x, _initialPosition.y, _initialPosition.z - offset);
+        Vector3 newPosition = new Vector3(m_InitialPosition.x, m_InitialPosition.y, m_InitialPosition.z - offset);
         transform.position = newPosition;
     }
 }
