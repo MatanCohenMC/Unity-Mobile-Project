@@ -79,7 +79,7 @@ public class ScoreManager : MonoBehaviour
         this.GetComponent<ScoreUI>().PresentSortedLeaderBoard();
     }
 
-    // this method resets LeaderBoard
+    // this method resets score array of the LeaderBoard
     public void ResetScoreLeaderBoard()
     {
         m_ScoresData.scores?.Clear();
