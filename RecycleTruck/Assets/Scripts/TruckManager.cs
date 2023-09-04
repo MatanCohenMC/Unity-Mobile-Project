@@ -16,6 +16,7 @@ public class TruckManager : MonoBehaviour
 
     private void Awake()
     {
+        // Subscribe the SetupTruck method to the OnGameSetup event in the GameManager instance.
         GameManager.Instance.OnGameSetup += SetupTruck;
         getBodyRendere();
     }

@@ -28,6 +28,7 @@ public class HealthManager : MonoBehaviour
 
     private void Awake()
     {
+        // Subscribe the SetupLives method to the OnGameSetup event in the GameManager instance.
         GameManager.Instance.OnGameSetup += SetupLives;
     }
 
@@ -36,12 +37,14 @@ public class HealthManager : MonoBehaviour
         updateHeartAmount();
     }
 
+    // this method increases or decreases the health amount based on the 'i_ToIncrease' parameter.
     public void DecreaseOrIncreaseHeartAmount(bool i_ToIncrease)
     {
         HealthAmountRemain += i_ToIncrease ? 1 : -1;
         updateHeartAmount();
     }
 
+    // this method updates the displayed hearts based on the current 'HealthAmountRemain'.
     private void updateHeartAmount()
     {
         foreach (Image img in Hearts)
