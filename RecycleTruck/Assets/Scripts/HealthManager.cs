@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-
 
 [Serializable]
 public class HealthManager : MonoBehaviour
@@ -39,12 +36,6 @@ public class HealthManager : MonoBehaviour
         updateHeartAmount();
     }
 
-    //void Update()
-    //{
-    //    updateHeartAmount();
-    //}
-
-
     public void DecreaseOrIncreaseHeartAmount(bool i_ToIncrease)
     {
         HealthAmountRemain += i_ToIncrease ? 1 : -1;
@@ -64,14 +55,10 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    // this method setup player lives to its initial value
     public void SetupLives()
     {
         HealthAmountRemain = k_DefaultTotalHealthAmount;
         updateHeartAmount();
-    }
-
-    public void HandleGameReset()
-    {
-        SetupLives();
     }
 }
